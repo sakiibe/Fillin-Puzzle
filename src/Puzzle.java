@@ -13,6 +13,7 @@ public class Puzzle {
         this.column = column;
         this.numberOfWords = numberOfWords;
         this.grid = new char[row][column];
+
     }
 
     /**

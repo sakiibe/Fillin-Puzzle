@@ -150,7 +150,7 @@ public class FillInPuzzle {
             visitedWord.add(slot.getPossibleWords().get(slot.getWordIdx()));
             Solution(slotStack, visitedWord);
         } else {
-
+            visitedWord.remove(slot.getWordIdx());
             slotStack.push(slot);
             if (slot.getOrientation() == Orientation.Horizontal) {
                 puzzle.removeHorizontal(slot.getRow(), slot.getColumn(), slot.getSize());
