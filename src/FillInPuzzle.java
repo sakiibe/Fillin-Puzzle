@@ -41,8 +41,9 @@ public class FillInPuzzle {
                     int row = Integer.parseInt(puzzleSpecs[1]);
                     int numberOfWords = Integer.parseInt(puzzleSpecs[2]);
 
-                    this.puzzle = new Puzzle(row, column, numberOfWords);
+
                     this.secondPuzzle = new SecondPuzzle(row, column, numberOfWords);
+                    this.puzzle = new Puzzle(row, column, numberOfWords,secondPuzzle);
 
                     //read empty spaces in puzzles (slots for the context of this program)
                     for (int i = 0; i < numberOfWords; i++) {
@@ -55,7 +56,7 @@ public class FillInPuzzle {
                         //horizontal slot
                         if (words[3].equalsIgnoreCase("h")) {
                             //fill that space with '.'
-                            puzzle.removeHorizontal(row, column, size);
+                            puzzle.fillHorizontalSlot(row, column, size);
 
                             Slot slot = new Slot(row, column, size, Orientation.Horizontal);
 
@@ -73,7 +74,7 @@ public class FillInPuzzle {
                         //vertical slot
                         else if (words[3].equalsIgnoreCase("v")) {
                             //fill that space with '.'
-                            puzzle.removeVertical(row, column, size);
+                            puzzle.fillVerticalSlot(row, column, size);
 
                             Slot slot = new Slot(row, column, size, Orientation.Vertical);
 
@@ -118,6 +119,7 @@ public class FillInPuzzle {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -131,14 +133,14 @@ public class FillInPuzzle {
             slotStack.add(slot);
         }
 
-        if (Solution(slotStack, visitedWord)) {
+        if (Solution(slotStack, visitedWord, new Stack<>())) {
             return true;
         } else {
             return false;
         }
     }
 
-    private boolean Solution(Stack<Slot> slotStack, Set<String> visitedWord) {
+    private boolean Solution(Stack<Slot> slotStack, Set<String> visitedWord, Stack<Slot>visitedSlot) {
 
         if (slotStack.isEmpty()) {
             return true;
@@ -148,17 +150,24 @@ public class FillInPuzzle {
 
         if (slot.insertWord(puzzle, visitedWord)) {
             visitedWord.add(slot.getPossibleWords().get(slot.getWordIdx()));
-            Solution(slotStack, visitedWord);
+            visitedSlot.push(slot);
+            Solution(slotStack, visitedWord, visitedSlot);
         } else {
-            visitedWord.remove(slot.getWordIdx());
-            slotStack.push(slot);
+            this.choice++;
+            Slot removedSlot= visitedSlot.peek();
+
+
+            slotStack.push(removedSlot);
+            visitedWord.remove(removedSlot.getWordIdx());
+            removedSlot.setWordIdx(0);
+
             if (slot.getOrientation() == Orientation.Horizontal) {
                 puzzle.removeHorizontal(slot.getRow(), slot.getColumn(), slot.getSize());
             } else {
                 puzzle.removeVertical(slot.getRow(), slot.getColumn(), slot.getSize());
             }
 
-            Solution(slotStack, visitedWord);
+            Solution(slotStack, visitedWord, visitedSlot);
         }
         return false;
     }
@@ -198,6 +207,10 @@ public class FillInPuzzle {
 
     public List<Slot> getSlots() {
         return slots;
+    }
+
+    public SecondPuzzle getSecondPuzzle() {
+        return secondPuzzle;
     }
 }
 

@@ -57,6 +57,9 @@ public class SecondPuzzle {
         }
     }
 
+    public ArrayList<Slot>[][] getGrid() {
+        return grid;
+    }
 }
 
 

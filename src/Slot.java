@@ -58,26 +58,30 @@ public class Slot {
 
     public boolean insertWord(Puzzle puzzle, Set<String> visitedWordSet) {
 
-        for (int i = this.wordIdx; i < possibleWords.size(); i++) {
-            if (visitedWordSet.contains(possibleWords.get(i))){
+        for (int i = 0; i < possibleWords.size(); i++) {
+            int count=0;
+            if (visitedWordSet.contains(possibleWords.get((i+wordIdx)& possibleWords.size()))){
                 continue;
             }
             if (this.orientation == Orientation.Horizontal) {
-                if (puzzle.placeWordHorizontal(this, possibleWords.get(i))) {
+                if (puzzle.placeWordHorizontal(this, possibleWords.get((i+wordIdx)& possibleWords.size()))) {
                     this.wordIdx = i;
                     return true;
                 }
             } else if (this.orientation == Orientation.Vertical) {
-                if (puzzle.placeWordVertical(this, possibleWords.get(i))) {
+                if (puzzle.placeWordVertical(this, possibleWords.get((i+wordIdx)& possibleWords.size()))) {
                     this.wordIdx = i;
                     return true;
                 }
             }
+            count++;
             //reached the end of possible words, still no word fits
-            if (i == possibleWords.size() - 1) {
+            if (count == possibleWords.size() - 1) {
                 //reset pointer
-                this.wordIdx = 0;
+                this.wordIdx=0;
+                return false;
             }
+
         }
 
         return false;
@@ -89,6 +93,10 @@ public class Slot {
 
     public ArrayList<String> getPossibleWords() {
         return possibleWords;
+    }
+
+    public void setWordIdx(int wordIdx) {
+        this.wordIdx = wordIdx;
     }
 
     @Override

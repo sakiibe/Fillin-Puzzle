@@ -1,5 +1,5 @@
-  a         
+  f         
   r     b   
-  f r a i l 
-  a     s   
+  a . . . . 
+  i     s   
 p l u s h   
