@@ -125,7 +125,7 @@ public class FillInPuzzle {
 
     public Boolean solve() {
 
-//       solveUniqueSlotSizeEntires();
+       solveUniqueSlotSizeEntires();
 
         Stack<Slot> slotStack = new Stack<>();
 
@@ -137,6 +137,23 @@ public class FillInPuzzle {
             return true;
         } else {
             return false;
+        }
+    }
+    private void solveUniqueSlotSizeEntires(){
+        ArrayList<Slot> solvedSlots= new ArrayList<>();
+        for (Slot slot: slots){
+            if (slot.getPossibleWords().size()==1){
+                if (slot.getOrientation()==Orientation.Horizontal){
+                    puzzle.placeWordHorizontal(slot,slot.getPossibleWords().get(0));
+                    solvedSlots.add(slot);
+                } else {
+                    puzzle.placeWordVertical(slot,slot.getPossibleWords().get(0));
+                    solvedSlots.add(slot);
+                }
+            }
+        }
+        for (Slot slot: solvedSlots){
+            slots.remove(slot);
         }
     }
 
@@ -151,20 +168,20 @@ public class FillInPuzzle {
         if (slot.insertWord(puzzle, visitedWord)) {
             visitedWord.add(slot.getPossibleWords().get(slot.getWordIdx()));
             visitedSlot.push(slot);
+            System.out.println(puzzle.toString());
             Solution(slotStack, visitedWord, visitedSlot);
         } else {
             this.choice++;
             Slot removedSlot= visitedSlot.peek();
-
-
+            slotStack.push(slot);
             slotStack.push(removedSlot);
-            visitedWord.remove(removedSlot.getWordIdx());
+            visitedWord.remove(removedSlot.getWordUsed());
             removedSlot.setWordIdx(0);
 
-            if (slot.getOrientation() == Orientation.Horizontal) {
-                puzzle.removeHorizontal(slot.getRow(), slot.getColumn(), slot.getSize());
+            if (removedSlot.getOrientation() == Orientation.Horizontal) {
+                puzzle.removeHorizontal(removedSlot.getRow(), removedSlot.getColumn(), removedSlot.getSize());
             } else {
-                puzzle.removeVertical(slot.getRow(), slot.getColumn(), slot.getSize());
+                puzzle.removeVertical(removedSlot.getRow(), removedSlot.getColumn(), removedSlot.getSize());
             }
 
             Solution(slotStack, visitedWord, visitedSlot);

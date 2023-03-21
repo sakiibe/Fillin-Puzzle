@@ -9,7 +9,6 @@ public class Main {
 
         System.out.println(fp.loadPuzzle(steam));
         fp.solve();
-        System.out.println("a");
         System.out.println(fp.choices());
         System.out.println(fp.getPuzzle().toString());
         fp.print(outstream);

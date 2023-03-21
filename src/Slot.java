@@ -12,7 +12,7 @@ public class Slot {
     private ArrayList<String> possibleWords;
 
     private int wordIdx;
-
+    private String wordUsed;
     public Slot(int row, int column, int size, Orientation orientation) {
         this.row = row;
         this.column = column;
@@ -56,37 +56,63 @@ public class Slot {
     }
 
 
+//    public boolean insertWord(Puzzle puzzle, Set<String> visitedWordSet) {
+//
+//        for (int i = 0; i < possibleWords.size(); i++) {
+//            int count=0;
+//            if (visitedWordSet.contains((i+wordIdx)& possibleWords.size()) || possibleWords.get(i).equals(wordUsed)){
+//                continue;
+//            }
+//            if (this.orientation == Orientation.Horizontal) {
+//                if (puzzle.placeWordHorizontal(this, possibleWords.get((i+wordIdx)& possibleWords.size()))) {
+//                    this.wordIdx = i;
+//                    return true;
+//                }
+//            } else if (this.orientation == Orientation.Vertical) {
+//                if (puzzle.placeWordVertical(this, possibleWords.get((i+wordIdx)& possibleWords.size()))) {
+//                    this.wordIdx = i;
+//                    return true;
+//                }
+//            }
+//            count++;
+//            //reached the end of possible words, still no word fits
+//            if (count == possibleWords.size() - 1) {
+//                //reset pointer
+//                this.wordIdx=0;
+//                return false;
+//            }
+//
+//        }
+
+//        return false;
+//    }
+
     public boolean insertWord(Puzzle puzzle, Set<String> visitedWordSet) {
 
         for (int i = 0; i < possibleWords.size(); i++) {
-            int count=0;
-            if (visitedWordSet.contains(possibleWords.get((i+wordIdx)& possibleWords.size()))){
+
+            if (visitedWordSet.contains(possibleWords.get(i)) || possibleWords.get(i).equals(wordUsed)){
                 continue;
             }
             if (this.orientation == Orientation.Horizontal) {
-                if (puzzle.placeWordHorizontal(this, possibleWords.get((i+wordIdx)& possibleWords.size()))) {
+                if (puzzle.placeWordHorizontal(this,possibleWords.get(i) )) {
+                    this.wordUsed= possibleWords.get(i);
                     this.wordIdx = i;
                     return true;
                 }
             } else if (this.orientation == Orientation.Vertical) {
-                if (puzzle.placeWordVertical(this, possibleWords.get((i+wordIdx)& possibleWords.size()))) {
+                if (puzzle.placeWordVertical(this,possibleWords.get(i) )) {
+                    this.wordUsed= possibleWords.get(i);
                     this.wordIdx = i;
                     return true;
                 }
             }
-            count++;
-            //reached the end of possible words, still no word fits
-            if (count == possibleWords.size() - 1) {
-                //reset pointer
-                this.wordIdx=0;
-                return false;
-            }
+
 
         }
 
         return false;
     }
-
     public int getWordIdx() {
         return wordIdx;
     }
@@ -110,5 +136,13 @@ public class Slot {
     @Override
     public int hashCode() {
         return Objects.hash(getRow(), getColumn(), getSize(), getOrientation());
+    }
+
+    public void setWordUsed(String wordUsed) {
+        this.wordUsed = wordUsed;
+    }
+
+    public String getWordUsed() {
+        return wordUsed;
     }
 }
