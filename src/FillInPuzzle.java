@@ -173,35 +173,39 @@ public class FillInPuzzle {
      * @return -- true if a solution is generated. Otherwise return false.
      */
     private boolean Solution(Stack<Slot> slotStack, Set<String> visitedWord, Stack<Slot>visitedSlot) {
-
-        if (slotStack.isEmpty()) {
-            return true;
-        }
-
-        Slot slot = slotStack.pop();
-
-        if (slot.insertWord(puzzle, visitedWord)) {
-            visitedWord.add(slot.getPossibleWords().get(slot.getWordIdx()));
-            visitedSlot.push(slot);
-            System.out.println(puzzle.toString());
-            Solution(slotStack, visitedWord, visitedSlot);
-        } else {
-            this.choice++;
-            Slot removedSlot= visitedSlot.peek();
-            slotStack.push(slot);
-            slotStack.push(removedSlot);
-            visitedWord.remove(removedSlot.getWordUsed());
-            removedSlot.setWordIdx(0);
-
-            if (removedSlot.getOrientation() == Orientation.Horizontal) {
-                puzzle.removeHorizontal(removedSlot.getRow(), removedSlot.getColumn(), removedSlot.getSize());
-            } else {
-                puzzle.removeVertical(removedSlot.getRow(), removedSlot.getColumn(), removedSlot.getSize());
+        try {
+            if (slotStack.isEmpty()) {
+                return true;
             }
 
-            Solution(slotStack, visitedWord, visitedSlot);
+            Slot slot = slotStack.pop();
+
+            if (slot.insertWord(puzzle, visitedWord)) {
+                visitedWord.add(slot.getPossibleWords().get(slot.getWordIdx()));
+                visitedSlot.push(slot);
+//            System.out.println(puzzle.toString());
+                Solution(slotStack, visitedWord, visitedSlot);
+            } else {
+                this.choice++;
+                Slot backtrackSlot = visitedSlot.peek();
+                slotStack.push(slot);
+
+                if (slot.allPossibilitiesExplored(visitedWord)) {
+                    slotStack.push(backtrackSlot);
+                    visitedWord.remove(backtrackSlot.getWordUsed());
+                    backtrackSlot.setWordIdx(0);
+                    if (backtrackSlot.getOrientation() == Orientation.Horizontal) {
+                        puzzle.removeHorizontal(backtrackSlot.getRow(), backtrackSlot.getColumn(), backtrackSlot.getSize());
+                    } else {
+                        puzzle.removeVertical(backtrackSlot.getRow(), backtrackSlot.getColumn(), backtrackSlot.getSize());
+                    }
+                }
+                Solution(slotStack, visitedWord, visitedSlot);
+            }
+            return false;
+        } catch (StackOverflowError e){
+            return false;
         }
-        return false;
     }
 
     /**
