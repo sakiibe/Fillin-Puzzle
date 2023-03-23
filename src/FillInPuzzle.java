@@ -5,11 +5,11 @@ import java.util.*;
 
 public class FillInPuzzle {
 
-    private Puzzle puzzle;
-    private SecondPuzzle secondPuzzle;
-    private HashMap<Integer, ArrayList<Slot>> slotMap;
-    private List<Slot> slots;
-    private static Set<String> visitedWord;
+    private Puzzle puzzle;  //puzzle being solved
+    private SecondPuzzle secondPuzzle;  //reference puzzle to get connected slots
+    private HashMap<Integer, ArrayList<Slot>> slotMap;  //Map of slot, key is the size of the slot and value is the slot
+    private List<Slot> slots; //list of slots to fill
+    private static Set<String> visitedWord; //words already placed in the puzzle
 
     private int choice;
 
@@ -123,6 +123,10 @@ public class FillInPuzzle {
         return true;
     }
 
+    /**
+     * Solves the puzzle- by placing the unique slot size entries first then solving the rest of the slots
+     * @return -- True if the puzzle could be solved. Otherwise, return false.
+     */
     public Boolean solve() {
 
        solveUniqueSlotSizeEntires();
@@ -139,6 +143,10 @@ public class FillInPuzzle {
             return false;
         }
     }
+
+    /**
+     * Solves slots that have unique size
+     */
     private void solveUniqueSlotSizeEntires(){
         ArrayList<Slot> solvedSlots= new ArrayList<>();
         for (Slot slot: slots){
@@ -157,6 +165,13 @@ public class FillInPuzzle {
         }
     }
 
+    /**
+     * solves slots that does not have unique size
+     * @param slotStack -- Stack of slots to be solved
+     * @param visitedWord -- words placed in the puzzle
+     * @param visitedSlot -- slots filled in the puzzle
+     * @return -- true if a solution is generated. Otherwise return false.
+     */
     private boolean Solution(Stack<Slot> slotStack, Set<String> visitedWord, Stack<Slot>visitedSlot) {
 
         if (slotStack.isEmpty()) {
@@ -189,7 +204,10 @@ public class FillInPuzzle {
         return false;
     }
 
-
+    /**
+     * prints the current state of puzzle in a printwriter stream
+     * @param outstream -- stream being written to
+     */
     public void print(PrintWriter outstream) {
         char[][] grid = puzzle.getGrid();
 
@@ -207,6 +225,10 @@ public class FillInPuzzle {
         outstream.flush();
     }
 
+    /**
+     * maps slots to hashMap according to their size
+     * @param slot
+     */
     private void mapToSlot(Slot slot) {
         int idx = slot.getSize();
         slotMap.putIfAbsent(idx, new ArrayList<>());
@@ -214,20 +236,23 @@ public class FillInPuzzle {
         slotMap.get(idx).add(slot);
     }
 
+    /**
+     * number of choices or backtracks needed to solve the puzzle
+     * @return -- choices
+     */
+
     public int choices() {
         return this.choice;
     }
 
+    /**
+     * get the puzzle being solved
+     * @return
+     */
     public Puzzle getPuzzle() {
         return puzzle;
     }
 
-    public List<Slot> getSlots() {
-        return slots;
-    }
 
-    public SecondPuzzle getSecondPuzzle() {
-        return secondPuzzle;
-    }
 }
 

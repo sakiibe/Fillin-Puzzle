@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 
 public class SecondPuzzle {
-    private int row;
-    private int column;
+    private int row; //row of this puzzle
+    private int column; //column of this puzzle
 
-    private int n;
-    private ArrayList<Slot>[][] grid;
+    private int n; //number of words to be solved
+    private ArrayList<Slot>[][] grid; //2-d array to create the puzzle
 
     public SecondPuzzle(int row, int column, int n) {
         this.row = row;
@@ -15,6 +15,9 @@ public class SecondPuzzle {
         this.initializeGrid();
     }
 
+    /**
+     * initializes a new arraylist in each cell
+     */
     private void initializeGrid() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
@@ -22,6 +25,14 @@ public class SecondPuzzle {
             }
         }
     }
+
+    /**
+     * place reference of slot for the cell they belong to
+     * @param startRow --row of the slot
+     * @param startColumn --column of the slot
+     * @param until -- size of the slot
+     * @param slot -- reference to the slot
+     */
 
     public void claimHorizontalSlots(int startRow, int startColumn, int until, Slot slot) {
 
@@ -39,7 +50,13 @@ public class SecondPuzzle {
             slots.add(slot);
         }
     }
-
+    /**
+     * place reference of slot for the cell they belong to
+     * @param startRow --row of the slot
+     * @param startColumn --column of the slot
+     * @param until -- size of the slot
+     * @param slot -- reference to the slot
+     */
     public void claimVerticalSlots(int startRow, int startColumn, int until, Slot slot) {
         int column = startColumn;
         int row = grid.length - 1 - startRow;
@@ -57,6 +74,10 @@ public class SecondPuzzle {
         }
     }
 
+    /**
+     * Get the 2-d array of the second puzzle
+     * @return -- 2d array of the second puzzle
+     */
     public ArrayList<Slot>[][] getGrid() {
         return grid;
     }
