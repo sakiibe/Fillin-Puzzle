@@ -202,10 +202,11 @@ public class FillInPuzzle {
                 }
                 Solution(slotStack, visitedWord, visitedSlot);
             }
-            return false;
+            Solution(slotStack, visitedWord, visitedSlot);
         } catch (StackOverflowError e){
             return false;
         }
+        return false;
     }
 
     /**
