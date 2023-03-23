@@ -102,23 +102,6 @@ public class Puzzle {
         }
     }
 
-    public void fillHorizontalSlot(int startRow, int startColumn, int until) {
-        int column = startColumn;
-        int row = grid.length - 1 - startRow;
-
-        for (int i = column; i < until + column; i++) {
-            grid[row][i] = '.';
-        }
-    }
-
-    public void fillVerticalSlot(int startRow, int startColumn, int until) {
-        int column = startColumn;
-        int row = grid.length - 1 - startRow;
-
-        for (int i = row; i < row + until; i++) {
-            grid[i][column] = '.';
-        }
-    }
     /**
      * Get the 2d array contating the puzzle
      *

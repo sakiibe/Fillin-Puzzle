@@ -33,10 +33,18 @@ public class Slot {
         this.wordsAttempted= new HashSet<>();
     }
 
+    /**
+     * get starting row of this slot
+     * @return -- row of slot
+     */
     public int getRow() {
         return row;
     }
 
+    /**
+     * get the starting column of this slot
+     * @return -- column of slot
+     */
     public int getColumn() {
         return column;
     }
@@ -121,15 +129,27 @@ public class Slot {
             return false;
         }
     }
+
+    /**
+     * get index of word in the possible wordList that was placed in the puzzle
+     * @return -- index of placed word
+     */
     public int getWordIdx() {
         return wordIdx;
     }
 
-
+    /**
+     * get the possible words that could be used to solve this puzzle
+     * @return -- possible words list
+     */
     public ArrayList<String> getPossibleWords() {
         return possibleWords;
     }
 
+    /**
+     * set the word index. is mainly used to reset pointer after all possiblities were explored
+     * @param wordIdx
+     */
     public void setWordIdx(int wordIdx) {
         this.wordIdx = wordIdx;
     }
@@ -147,10 +167,10 @@ public class Slot {
         return Objects.hash(getRow(), getColumn(), getSize(), getOrientation());
     }
 
-    public void setWordUsed(String wordUsed) {
-        this.wordUsed = wordUsed;
-    }
-
+    /**
+     * get the current word placed for this puzzle
+     * @return
+     */
     public String getWordUsed() {
         return wordUsed;
     }

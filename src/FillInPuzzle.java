@@ -56,7 +56,7 @@ public class FillInPuzzle {
                         //horizontal slot
                         if (words[3].equalsIgnoreCase("h")) {
                             //fill that space with '.'
-                            puzzle.fillHorizontalSlot(row, column, size);
+                            puzzle.removeHorizontal(row, column, size);
 
                             Slot slot = new Slot(row, column, size, Orientation.Horizontal);
 
@@ -74,7 +74,7 @@ public class FillInPuzzle {
                         //vertical slot
                         else if (words[3].equalsIgnoreCase("v")) {
                             //fill that space with '.'
-                            puzzle.fillVerticalSlot(row, column, size);
+                            puzzle.removeVertical(row, column, size);
 
                             Slot slot = new Slot(row, column, size, Orientation.Vertical);
 
@@ -213,20 +213,22 @@ public class FillInPuzzle {
      * @param outstream -- stream being written to
      */
     public void print(PrintWriter outstream) {
-        char[][] grid = puzzle.getGrid();
+        if (outstream!=null) {
+            char[][] grid = puzzle.getGrid();
 
-        for (int i = 0; i < grid.length; i++) {
+            for (int i = 0; i < grid.length; i++) {
 
-            for (int j = 0; j < grid[i].length; j++) {
-                if (grid[i][j] == '\0') {
-                    outstream.print("  ");
-                } else {
-                    outstream.print(grid[i][j]+" ");
+                for (int j = 0; j < grid[i].length; j++) {
+                    if (grid[i][j] == '\0') {
+                        outstream.print(" ");
+                    } else {
+                        outstream.print(grid[i][j]);
+                    }
                 }
+                outstream.println();
             }
-            outstream.println();
+            outstream.flush();
         }
-        outstream.flush();
     }
 
     /**

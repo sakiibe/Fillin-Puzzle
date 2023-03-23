@@ -1,5 +1,5 @@
-  f         
-  r     b   
-  a r r a y 
-  i     s   
-p l u s h   
+ f    
+ r  b 
+ array
+ i  s 
+plush 
